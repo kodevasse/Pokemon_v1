@@ -9,7 +9,7 @@ const state = reactive({
 });
 
 const fetchPokemon = () => {
-  axios.get("https://pokeapi.co/api/v2/pokemon?offset=0").then((response) => {
+  axios.get("https://pokeapi.co/api/v2/pokemon?limit=10").then((response) => {
     state.pokemons = response.data.results; // 👈 get just results
   });
 };
@@ -23,7 +23,7 @@ const getPokemonId = (item) => {
 
 function updatePokemon() {
   if (!state.text) {
-    return [];
+    return state.pokemons;
   }
   return state.pokemons.filter((pokemon) => pokemon.name.includes(state.text));
 }
@@ -32,40 +32,47 @@ function updatePokemon() {
 
 <template>
   <div class="p-2 h-full">
-    <div class="flex flex-row flex-wrap gap-4">
-      <div
-        v-for="pokemon in state.pokemons"
-        class="w-28 h-32 bg-gray-700 rounded-md"
-      >
-        {{ pokemon.name }} {{ getPokemonId(pokemon.name) }}
-      </div>
-    </div>
-
-    {{ state.filteredPokemon }}
     <div id="demo">
       <div class="w-full flex justify-center">
         <input
-          placeholder="Enter Pokemon here"
+          placeholder="Search pokemon here..."
           type="text"
-          class="input mt-10 p-2 border-blue-500 border-2"
+          class="input my-5 p-2 border-fuchsia-300 border-2"
           v-model="state.text"
         />
       </div>
-      <div class="mt-10 p-4 flex flex-wrap justify-center">
+      <div class="flex flex-row flex-wrap gap-3 justify-center">
+        <div
+          v-for="pokemon in state.filteredPokemon"
+          class="w-28 h-32 border-teal-100 bg-gray-900 border rounded-md justify-center flex flex-col"
+        >
+          <div class="flex flex-col">
+            <h1 class="text-fuchsia-300 mx-auto">{{ pokemon.name }}</h1>
+            <span class="mx-auto -mb-4 -mt-2">{{
+              getPokemonId(pokemon.name) + 1
+            }}</span
+            ><img
+              class="-mb-3"
+              :src="`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${
+                getPokemonId(pokemon.name) + 1
+              }.png`"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- <div class="mt-10 p-4 flex flex-wrap justify-center">
         <div
           class="ml-4 text-2xl text-blue-400"
           v-for="(pokemon, i) in state.filteredPokemon"
           :key="i"
-        >
-          <!-- // 👇 call function to get index -->
-          <router-link :to="`/about/${getPokemonId(pokemon.name)}`">
+        > -->
+      <!-- // 👇 call function to get index -->
+      <!-- <router-link :to="`/about/${getPokemonId(pokemon.name)}`">
             {{ pokemon.name }} - id {{ getPokemonId(pokemon.name) }}
           </router-link>
         </div>
-      </div>
-      <button class="btn btn-warning" @click="updatePokemon()">
-        UpdatePokemon
-      </button>
+      </div> -->
     </div>
   </div>
 </template>
