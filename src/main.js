@@ -5,10 +5,12 @@ import App from "./App.vue";
 import router from "./router";
 
 import "./assets/main.css";
+import NwImg from "nw-img-vue";
 
 const app = createApp(App);
 
 app.use(createPinia());
+app.use(NwImg);
 app.use(router);
 
 app.mount("#app");

@@ -65,7 +65,7 @@ const selectPokemon = (pokemon) => {
             <h1 class="text-fuchsia-300 mx-auto">{{ pokemon.name }}</h1>
             <span class="mx-auto -mt-1"
               >#{{ getPokemonId(pokemon.name) + 1 }}</span
-            ><img
+            ><NwImg
               class="-mb-3 w-24 mx-auto"
               :src="`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${
                 getPokemonId(pokemon.name) + 1
