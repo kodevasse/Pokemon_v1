@@ -44,16 +44,15 @@ function updatePokemon() {
       <div class="flex flex-row flex-wrap gap-3 justify-center">
         <div
           v-for="pokemon in state.filteredPokemon"
-          class="w-28 h-32 border-teal-100 bg-gray-900 border rounded-md justify-center flex flex-col"
+          class="w-28 h-36 border-teal-100 bg-gray-900 border rounded-md justify-center flex flex-col hover:bg-gray-800 transition-all cursor-pointer hover:scale-105"
         >
-          <div class="flex flex-col">
+          <div class="flex flex-col -mt-3">
             <h1 class="text-fuchsia-300 mx-auto">{{ pokemon.name }}</h1>
-            <span class="mx-auto -mb-4 -mt-2">{{
-              getPokemonId(pokemon.name) + 1
-            }}</span
+            <span class="mx-auto -mt-1"
+              >#{{ getPokemonId(pokemon.name) + 1 }}</span
             ><img
-              class="-mb-3"
-              :src="`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${
+              class="-mb-3 w-24 mx-auto"
+              :src="`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${
                 getPokemonId(pokemon.name) + 1
               }.png`"
             />
