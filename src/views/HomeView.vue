@@ -1,7 +1,9 @@
 <script setup>
 import { reactive, computed, ref } from "vue";
+import { useStorage } from "@vueuse/core";
 import Pokemon from "@/components/modals/Pokemon.vue";
 import axios from "axios";
+
 const state = reactive({
   pokemons: [],
   filteredPokemon: computed(() => updatePokemon()),
@@ -11,9 +13,24 @@ const state = reactive({
 });
 
 const fetchPokemon = () => {
-  axios.get("https://pokeapi.co/api/v2/pokemon?limit=25").then((response) => {
-    state.pokemons = response.data.results; // 👈 get just results
-  });
+  if (localStorage.Pokemons) {
+    // Load Pokémons from Local Storage if possible
+    let localPokemons = localStorage.getItem("Pokemons");
+    let obj = JSON.parse(localPokemons);
+    obj.results.forEach((pokemon) => {
+      state.pokemons.push(pokemon);
+    });
+    console.log("Pokémons loaded from Local Storage");
+  } else {
+    axios.get("https://pokeapi.co/api/v2/pokemon?limit=25").then((response) => {
+      console.log("Pokémons fetched from API");
+      const pokemonJSON = JSON.stringify(response.data);
+      localStorage.setItem("Pokemons", pokemonJSON); // Save Pokémon data to Local Storage
+      console.log("Pokémons saved to Local Storage");
+      localStorage.setItem("Pokemons", pokemonJSON); // Save Pokémon data to Local Storage
+      state.pokemons = response.data.results; // 👈 get just results
+    });
+  }
 };
 
 fetchPokemon();
@@ -36,6 +53,7 @@ const selectPokemon = (pokemon) => {
     .get(`https://pokeapi.co/api/v2/pokemon/${pokemon.name}`)
     .then((response) => {
       console.log(response.data);
+
       state.selectedPokemon = response.data; // 👈 get just results
     });
 };
@@ -70,6 +88,7 @@ const selectPokemon = (pokemon) => {
               :src="`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${
                 getPokemonId(pokemon.name) + 1
               }.png`"
+              alt="Picture of pokemon"
             />
           </div>
         </label>

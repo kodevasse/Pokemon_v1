@@ -19,7 +19,7 @@
               {{ info.type.name }}
             </p></span
           ></div>
-        </p><NwImg v-if="pokemon.name"
+        </p><img v-if="pokemon.name"
               class="-mb-3 w-72 mx-auto "
               :src="`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${
                 pokemon.id
