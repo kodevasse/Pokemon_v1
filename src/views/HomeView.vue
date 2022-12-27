@@ -22,12 +22,11 @@ const fetchPokemon = () => {
     });
     console.log("Pokémons loaded from Local Storage");
   } else {
-    axios.get("https://pokeapi.co/api/v2/pokemon?limit=25").then((response) => {
+    axios.get("https://pokeapi.co/api/v2/pokemon?limit=51").then((response) => {
       console.log("Pokémons fetched from API");
       const pokemonJSON = JSON.stringify(response.data);
       localStorage.setItem("Pokemons", pokemonJSON); // Save Pokémon data to Local Storage
       console.log("Pokémons saved to Local Storage");
-      localStorage.setItem("Pokemons", pokemonJSON); // Save Pokémon data to Local Storage
       state.pokemons = response.data.results; // 👈 get just results
     });
   }
@@ -60,10 +59,11 @@ const selectPokemon = (pokemon) => {
 </script>
 
 <template>
-  <div class="p-2 h-full">
+  <div class="h-full">
     <div id="demo">
       <div class="w-full flex justify-center">
         <input
+          @keypress="updatePokemon"
           placeholder="Search pokemon here..."
           type="text"
           class="input my-5 p-2 border-fuchsia-300 border-2"
@@ -83,7 +83,7 @@ const selectPokemon = (pokemon) => {
             <h1 class="text-fuchsia-300 mx-auto">{{ pokemon.name }}</h1>
             <span class="mx-auto -mt-1"
               >#{{ getPokemonId(pokemon.name) + 1 }}</span
-            ><NwImg
+            ><img
               class="-mb-3 w-24 mx-auto"
               :src="`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${
                 getPokemonId(pokemon.name) + 1
@@ -93,7 +93,7 @@ const selectPokemon = (pokemon) => {
           </div>
         </label>
       </div>
-
+      <!--<Nwimg></Nwimg> stores the img so no need to fetch it every time -->
       <!-- <div class="mt-10 p-4 flex flex-wrap justify-center">
         <div
           class="ml-4 text-2xl text-blue-400"

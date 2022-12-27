@@ -11,8 +11,8 @@
         <input
           type="text"
           disabled
-          placeholder="comming next version.."
-          class="input input-bordered"
+          placeholder="made by 0xPDP "
+          class="bg-transparent -mr-12 placeholder:text-emerald-300"
         />
       </div>
       <!-- <div class="dropdown dropdown-end">
